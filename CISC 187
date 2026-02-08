@@ -1,0 +1,82 @@
+1. Creating an Array of 100 Elements 
+an array in C++ is a collection elements of same data typ stored in contiguos memory locations.
+
+#includ <iostream>
+using namespace std;
+
+int main () {
+  int arr[100]; 
+
+
+for (int i = 0; i < 100; i++) {
+arr[i] = i + 1;
+
+}
+
+cout << "array of 100 elements created successfully." << endl;
+return 0;
+}
+
+
+
+2. Size of Each Element in an Array 
+the size of each element in an array depends on data type used. 
+
+  #include <iostream>
+using namespace std;
+
+int main() {
+    int arr[100];
+
+    cout << "Size of each element: " << sizeof(arr[0]) << " bytes" << endl;
+    return 0;
+}
+
+
+
+
+
+Task 3: Number of Steps for Array Operations (6 pts)
+
+Assume the array has 100 elements (N = 100).
+
+Reading: 1 step (direct access using index)
+
+Searching for a value not in the array: 100 steps (each element must be checked)
+
+Insertion at the beginning: 100 steps (all elements must be shifted)
+
+Insertion at the end: 1 step (insert directly)
+
+Deletion at the beginning: 100 steps (all elements must be shifted)
+
+Deletion at the end: 1 step (remove last element)
+
+
+  Task 4: Counting All Occurrences of a Value (1 pt)
+
+To find all occurrences of a value in an array, every element must be checked.
+
+Number of steps: N
+
+
+  Task 5: Finding the Memory Address of an Array (1 pt)
+
+The name of the array gives the memory address of its first element.
+
+Example:#include <iostream>
+using namespace std;
+
+
+int main() {
+int numbers[5] = {10, 20, 30, 40, 50};
+
+
+cout << numbers << endl;
+cout << &numbers[0] << endl;
+
+
+return 0;
+}
+
+  
