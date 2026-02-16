@@ -1,0 +1,123 @@
+# Linear and Binary Search Assignment
+
+
+
+1. Steps for Linear Search
+
+Array: `[2, 4, 6, 8, 10, 12, 13]`  
+Target:`8`  
+
+Linear search examines each element sequentially until the target is found.  
+
+Steps:
+
+1. Compare 2 → not 8  
+2. Compare 4 → not 8  
+3. Compare 6 → not 8  
+4. Compare 8 → **found**
+
+Answer:4 steps
+
+
+
+## 2. Steps for Binary Search
+
+Binary search works by repeatedly dividing the array in half.  
+
+Array: `[2, 4, 6, 8, 10, 12, 13]`  
+Target: `8`
+
+Steps:
+
+1. Middle index = `(0 + 6) / 2 = 3` → value = 8 → **found**
+
+Answer: 1 step
+
+
+ 3. Maximum Steps for Binary Search on 100,000 Elements
+
+Maximum steps = `ceil(log2(100,000)) ≈ 17`  
+
+**Answer:** 17 steps
+
+
+
+ 4. C++ Program: Linear, Binary, and Randomized Search with Step Counting
+
+cpp
+#include <iostream>
+#include <vector>
+#include <random>
+
+using namespace std;
+
+ Linear Search
+int linearSearch(const vector<int>& arr, int key, int &steps) {
+    steps = 0;
+    for (int i = 0; i < arr.size(); ++i) {
+        ++steps;
+        if (arr[i] == key) return i;
+    }
+    return -1;
+}
+
+// Binary Search
+int binarySearch(const vector<int>& arr, int key, int &steps) {
+    steps = 0;
+    int left = 0, right = arr.size() - 1;
+    while (left <= right) {
+        ++steps;
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == key) return mid;
+        else if (arr[mid] < key) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+
+// Randomized Search
+int randomizedSearch(vector<int>& arr, int key, int &comparisons) {
+    int n = arr.size();
+    comparisons = 0;
+    vector<bool> visited(n, false);
+
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(0, n - 1);
+
+    int visitedCount = 0;
+    while (visitedCount < n) {
+        int idx = dis(gen);
+        if (!visited[idx]) {
+            ++comparisons;
+            if (arr[idx] == key) return idx;
+            visited[idx] = true;
+            ++visitedCount;
+        }
+    }
+    return -1;
+}
+
+int main() {
+    const int N = 100000;
+    vector<int> arr(N);
+    for (int i = 0; i < N; ++i) arr[i] = i + 1; // Fill 1 to 100,000
+
+    int key = 87654;
+    int stepsLinear, stepsBinary, stepsRandom;
+
+    // Linear Search
+    linearSearch(arr, key, stepsLinear);
+    cout << "Linear Search Steps: " << stepsLinear << endl;
+
+    // Binary Search
+    binarySearch(arr, key, stepsBinary);
+    cout << "Binary Search Steps: " << stepsBinary << endl;
+
+    // Randomized Search
+    randomizedSearch(arr, key, stepsRandom);
+    cout << "Randomized Search Steps: " << stepsRandom << endl;
+
+    return 0;
+}
+
