@@ -5,4 +5,67 @@ In Big O notation, we ignore constants:
 
 O(N) 
 
-2. 
+2. Use Big O Notation to describe the time complexity of an algorithm that takes 
+2N2
+
+Big O ignores constant multipliers so the 2 is irrelevant.
+
+O(N2) 
+
+3. Use Big O Notation to describe the time complexity of the following function, 
+which returns the sum of all numbers of an array after the numbers have been doubled:
+
+O(N)
+
+It’s linear because the work grows directly with the number of elements in the array.
+def double_then_sum(array) 
+	doubled_array = []
+
+	array.each do |number| 
+		doubled_array << number *= 2
+	end
+
+	sum = 0
+
+	doubled_array.each do |number| 
+		sum += number
+	end
+	return sum 
+end
+
+4. Use Big O Notation to describe the time complexity of the following function, 
+which accepts an array of strings and prints each string in multiple cases: 
+
+It’s linear because the number of steps grows directly with the number of strings in the array.
+O(N)
+
+def multiple_cases(array) 
+	array.each do |string|
+		puts string.upcase 
+		puts string.downcase 
+		puts string.capitalize
+	end 
+end
+
+
+
+
+5. The next function iterates over an array of numbers, and for each number whose index is even, it prints the sum of that number plus every number in the array.
+What is this function’s efficiency in terms of Big O Notation?:
+
+It’s quadratic because there’s a loop inside another loop that runs for half of the elements.
+
+
+def every_other(array) 
+	array.each_with_index do |number, index|
+		if index.even?
+			array.each do |other_number|
+            	puts number + other_number
+			end 
+		end
+	end 
+end
+
+
+
+
