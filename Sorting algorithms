@@ -1,0 +1,8 @@
+1. Use Big O Notation to describe the time complexity of an algorithm that takes 
+4N + 16 steps.
+ 
+In Big O notation, we ignore constants:
+
+O(N) 
+
+2. 
