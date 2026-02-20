@@ -1,7 +1,7 @@
 1. Use Big O Notation to describe the time complexity of an algorithm that takes 
 4N + 16 steps.
  
-In Big O notation, we ignore constants:
+In Big O notation we ignore constants:
 
 O(N) 
 
@@ -18,7 +18,8 @@ which returns the sum of all numbers of an array after the numbers have been dou
 O(N)
 
 It’s linear because the work grows directly with the number of elements in the array.
-def double_then_sum(array) 
+
+ef double_then_sum(array) 
 	doubled_array = []
 
 	array.each do |number| 
@@ -33,7 +34,7 @@ def double_then_sum(array)
 	return sum 
 end
 
-4. Use Big O Notation to describe the time complexity of the following function, 
+4. Use Big O Notation to describe the time complexity of the following function 
 which accepts an array of strings and prints each string in multiple cases: 
 
 It’s linear because the number of steps grows directly with the number of strings in the array.
@@ -53,7 +54,7 @@ end
 5. The next function iterates over an array of numbers, and for each number whose index is even, it prints the sum of that number plus every number in the array.
 What is this function’s efficiency in terms of Big O Notation?:
 
-It’s quadratic because there’s a loop inside another loop that runs for half of the elements.
+It’s quadratic because there a loop inside another loop that runs for half of the elements.
 
 
 def every_other(array) 
