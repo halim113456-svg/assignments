@@ -1,0 +1,58 @@
+1. Proof that, under the average-case scenario, the insertion sort has a time complexity ofO(N2)
+. Draw a clear figure and show all the operations clearly. **2 pts **
+
+Example (N = 5)
+Initial Array:
+[5, 3, 4, 1, 2]
+Pass 1 (i = 1
+[3, 5, 4, 1, 2] 
+Pass 2 (i = 27
+[3, 4, 5, 1, 2] 
+Pass 3 (i = 3)
+[1, 3, 4, 5, 2]
+Pass 4 (i = 4)
+[1, 2, 3, 4,5]
+Number of comparisons increases linearly for each pass  total operations proportional N2.
+ Therefore average case time complexity = O(N2)
+
+
+2. At the start of the insertion sort, the index of the inspected value is set to 1.
+ Change the index of the inspected value and verify that the total number of operations equals 20.
+Consider the worst-case scenario. Use N=5, where N is the number of elements. 4 pts
+
+Worst case occurs when the array is sorted in reverse.
+If the inspected index were incorrectly started at 0 the first iteration would perform unnecessary comparisons and disrupt the algorithm logic.
+so  starting at index 1 ensures correct operation counting and gives 20 operations in worst case when N=5.
+
+3. The following function returns whether or not a capital “X” is present within a string. 4 pt
+
+function containsX(string) {
+	foundX = false;
+	for(let i = 0; i < string.length; i++) { 
+		if (string[i] === "X") {
+			foundX = true; .
+		}
+	}
+	return foundX; 
+}
+(a) What is this function’s time complexity regarding Big O Notation?
+The loop checks every character in the string.
+If string length = N:
+Worst case: scans entire string
+Average case: may scan most of the string
+Therefore: O(N)
+
+(b) Then, modify the code to improve the algorithm’s efficiency for best- and average-case scenarios.
+The current function continues looping even after finding X.
+
+function containsX(string) {
+	for (let i = 0; i < string.length; i++) { 
+		if (string[i] === "X") {
+			return true; 
+		}
+	} 
+	return false; 
+} 
+
+
+
