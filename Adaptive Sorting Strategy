@@ -1,0 +1,94 @@
+Part A Asaptive sorting selection 
+import random
+
+Create an array of 50 random integers
+arr = [random.randint(1, 100) for _ in range(50)]
+
+ Selection Sort 
+def selection_sort(a):
+    n = len(a)
+    for i in range(n):
+        min_idx = i
+        for j in range(i+1, n):
+            if a[j] < a[min_idx]:
+                min_idx = j
+        a[i], a[min_idx] = a[min_idx], a[i]
+    return a
+
+ Insertion Sort
+def insertion_sort(a):
+    n = len(a)
+    for i in range(1, n):
+        key = a[i]
+        j = i - 1
+        while j >= 0 and a[j] > key:
+            a[j + 1] = a[j]
+            j -= 1
+        a[j + 1] = key
+    return a
+
+Count how disordered the array is
+def count_disorder(a):
+    count = 0
+    for i in range(len(a)-1):
+        if a[i] > a[i+1]:
+            count += 1
+    return count
+
+ Choose the sorting algorithm 
+disorder = count_disorder(arr)
+
+if disorder <= 5:
+    print("Array nearly sorted → Using Insertion Sort")
+    sorted_arr = insertion_sort(arr.copy())
+elif disorder >= 40:
+    print("Array mostly reverse → Using Selection Sort")
+    sorted_arr = selection_sort(arr.copy())
+else:
+    print("Array average/random → Using Insertion Sort")
+    sorted_arr = insertion_sort(arr.copy())
+
+print("Original Array:", arr)
+print("Sorted Array:", sorted_arr)
+
+
+
+
+
+
+Part B Case classification without sorting 
+user_input = []
+print("Enter 50 integers:")
+for _ in range(50):
+    user_input.append(int(input()))
+
+ Count disorder
+disorder = count_disorder(user_input)
+
+ Classify the input
+if disorder <= 5:
+    print("Classification: Best Case (nearly sorted)")
+elif disorder >= 40:
+    print("Classification: Worst Case (mostly reverse sorted)")
+else:
+    print("Classification: Average Case")
+
+
+
+
+
+
+Part C 
+I count how many numbers are out of order in the array:
+Best case: 5 or fewer out-of-order  almost sorted
+Average case: 6 39 out of order  random
+Worst case: 40 or more out-of-order mostly reversed
+Why This Works
+Insertion Sort is fast if the array is almost sorted.
+Selection Sort always takes the same time no matter the order.
+Algorithm Choice
+Best average case: Use Insertion Sort
+Worst case: Use Selection Sort
+Effect of Input Order
+Insertion Sort: Faster for nearly sorted arrays, slower for messy ones.
+Selection Sort: Same speed for all arrays.
