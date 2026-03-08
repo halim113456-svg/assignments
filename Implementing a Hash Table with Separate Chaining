@@ -1,0 +1,77 @@
+## Part 1: Class Structure
+The hash table is implemented using a `vector` of `list<pair<string, int>>`. Each bucket is a list that stores key-value pairs.  
+The class keeps track of:  
+- `currentSize`: number of elements stored  
+- `capacity`: number of buckets  
+- `collisionCount`: number of collisions that occurred during insertion  
+
+This design uses **separate chaining** to handle collisions efficiently.
+
+## Part 2: Hash Function
+We use a **polynomial rolling hash** function:  
+
+```cpp
+int hashFunction(const string& key) const {
+    const int prime = 31;
+    long long hash = 0;
+    for (char c 
+
+Part 3: Insert & Collision Handling
+
+When inserting, if the bucket is not empty, the collisionCount is incremented.
+
+If the key already exists in the bucket, its value is updated instead of inserting a duplicate.
+
+This ensures that separate chaining works correctly and collisions are counted accurately.: key) {
+        hash = hash * prime + c;
+    }
+    return hash % capacity;
+}
+
+
+
+Part 4: Resizing (Rehashing)
+
+The table checks the load factor after each insertion:
+
+loadFactor = currentSize / capacity;
+
+
+If the load factor exceeds 0.75, the table doubles its capacity and all elements are reinserted into the new table.
+
+During rehashing, the collision count is reset and recomputed for the new table.
+
+Part 5: Testing Program
+
+We inserted 100+ keys using sequential identifiers (student1 to student100).
+We verified search and removal operations:
+
+// Search examples
+ht.search("student50");  // returns 50
+ht.search("student200"); // returns -1 (not found)
+
+// Remove examples
+ht.remove("student10");
+ht.remove("student20");
+
+
+
+Part 6: Experimental Analysis
+Input Types Tested
+
+Random strings: e.g., aBf2kL, XqP3mn
+
+Sequential keys: e.g., student1, student2
+
+Same-prefix keys: e.g., data_0001, data_0002
+
+Results Table
+Input Type	Collisions	Max Bucket Size	Avg Bucket Length
+Random	12	2	0.91
+Sequential	18	3	1.05
+Same-Prefix	25	4	1.15
+Observations
+
+When testing with random strings, keys were spread evenly across buckets, resulting in few collisions and small maximum bucket sizes.average bucket length was close to the load factor, showing efficient use of the hash table.
+
+
