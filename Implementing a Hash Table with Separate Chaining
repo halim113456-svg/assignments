@@ -1,16 +1,16 @@
  Part 1: Class Structure
 The hash table is implemented using a `vector` of `list<pair<string, int>>`. Each bucket is a list that stores key-value pairs.  
 The class keeps track of:  
-- `currentSize`: number of elements stored  
-- `capacity`: number of buckets  
-- `collisionCount`: number of collisions that occurred during insertion  
+- currentSize: number of elements stored  
+- capacity: number of buckets  
+- collisionCount: number of collisions that occurred during insertion  
 
 This design uses **separate chaining** to handle collisions efficiently.
 
 Part 2: Hash Function
 We use a **polynomial rolling hash** function:  
 
-```cpp
+cpp
 int hashFunction(const string& key) const {
     const int prime = 31;
     long long hash = 0;
@@ -46,7 +46,7 @@ Part 5: Testing Program
 We inserted 100+ keys using sequential identifiers (student1 to student100).
 We verified search and removal operations:
 
-// Search examples
+ Search examples
 ht.search("student50");  // returns 50
 ht.search("student200"); // returns -1 (not found)
 
