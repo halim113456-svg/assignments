@@ -1,4 +1,4 @@
-## Part 1: Class Structure
+ Part 1: Class Structure
 The hash table is implemented using a `vector` of `list<pair<string, int>>`. Each bucket is a list that stores key-value pairs.  
 The class keeps track of:  
 - `currentSize`: number of elements stored  
@@ -7,7 +7,7 @@ The class keeps track of:
 
 This design uses **separate chaining** to handle collisions efficiently.
 
-## Part 2: Hash Function
+Part 2: Hash Function
 We use a **polynomial rolling hash** function:  
 
 ```cpp
@@ -72,6 +72,184 @@ Sequential	18	3	1.05
 Same-Prefix	25	4	1.15
 Observations
 
-When testing with random strings, keys were spread evenly across buckets, resulting in few collisions and small maximum bucket sizes.average bucket length was close to the load factor, showing efficient use of the hash table.
+When testing with random strings, keys were spread evenly across buckets,
+resulting in few collisions and small maximum bucket sizes.average bucket 
+length was close to the load factor, showing efficient use of the hash table.
+With sequential keys, collisions were slightly higher because the pattern caused some clustering in certain buckets. The maximum bucket size increased a bit, but overall performance remained acceptable.
 
+For same-prefix keys, collisions were more frequent and a few buckets became longer. Since all keys shared the same prefix, the first few characters contributed less variation to the hash. Still, the hash table correctly handled collisions using separate chaining, and average bucket length stayed reasonable.
 
+Overall, the hash table works best with varied input, but it handles patterned keys correctly, demonstrating the effectiveness of the hash function and collision handling strategy.
+
+Code
+#include <iostream>
+#include <vector>
+#include <list>
+#include <string>
+#include <random>
+#include <iomanip>
+using namespace std;
+
+class HashTable {
+private:
+    vector<list<pair<string, int>>> table;
+    int currentSize;
+    int capacity;
+    int collisionCount;
+
+    int hashFunction(const string& key) const {
+        const int prime = 31;
+        long long hash = 0;
+        for (char c : key) {
+            hash = hash * prime + c;
+        }
+        return hash % capacity;
+    }
+
+    void rehash() {
+        int oldCapacity = capacity;
+        capacity *= 2;
+        vector<list<pair<string, int>>> newTable(capacity);
+        collisionCount = 0;
+        currentSize = 0;
+
+        for (int i = 0; i < oldCapacity; i++) {
+            for (auto& kv : table[i]) {
+                insert(kv.first, kv.second, newTable);
+            }
+        }
+
+        table = std::move(newTable);
+    }
+
+    void insert(const string& key, int value, vector<list<pair<string, int>>>& targetTable) {
+        int index = hashFunction(key) % targetTable.size();
+        auto& bucket = targetTable[index];
+        for (auto& kv : bucket) {
+            if (kv.first == key) {
+                kv.second = value;
+                return;
+            }
+        }
+        if (!bucket.empty()) collisionCount++;
+        bucket.push_back({key, value});
+        currentSize++;
+    }
+
+public:
+    HashTable(int size = 11) {
+        capacity = size;
+        table.resize(capacity);
+        currentSize = 0;
+        collisionCount = 0;
+    }
+
+    void insert(const string& key, int value) {
+        int index = hashFunction(key);
+        auto& bucket = table[index];
+
+        for (auto& kv : bucket) {
+            if (kv.first == key) {
+                kv.second = value;
+                return;
+            }
+        }
+
+        if (!bucket.empty()) collisionCount++;
+        bucket.push_back({key, value});
+        currentSize++;
+
+        if (loadFactor() > 0.75) rehash();
+    }
+
+    bool remove(const string& key) {
+        int index = hashFunction(key);
+        auto& bucket = table[index];
+        for (auto it = bucket.begin(); it != bucket.end(); ++it) {
+            if (it->first == key) {
+                bucket.erase(it);
+                currentSize--;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    int search(const string& key) const {
+        int index = hashFunction(key);
+        const auto& bucket = table[index];
+        for (const auto& kv : bucket) {
+            if (kv.first == key) return kv.second;
+        }
+        return -1;
+    }
+
+    double loadFactor() const {
+        return static_cast<double>(currentSize) / capacity;
+    }
+
+    int size() const { return currentSize; }
+    bool isEmpty() const { return currentSize == 0; }
+    int getCollisionCount() const { return collisionCount; }
+    int getCapacity() const { return capacity; }
+    int getMaxBucketSize() const {
+        int maxSize = 0;
+        for (const auto& bucket : table)
+            if (bucket.size() > maxSize) maxSize = bucket.size();
+        return maxSize;
+    }
+    double getAverageBucketLength() const {
+        return static_cast<double>(currentSize) / capacity;
+    }
+};
+
+// Random string generator
+string randomString(int length) {
+    static const char charset[] =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static mt19937 rng(random_device{}());
+    static uniform_int_distribution<int> dist(0, sizeof(charset) - 2);
+
+    string s;
+    for (int i = 0; i < length; i++)
+        s += charset[dist(rng)];
+    return s;
+}
+
+// Testing function
+void testInputType(HashTable& ht, const vector<string>& keys) {
+    for (int i = 0; i < keys.size(); i++) ht.insert(keys[i], i);
+    cout << "Capacity: " << ht.getCapacity() << ", Elements: " << ht.size()
+         << ", Load Factor: " << fixed << setprecision(2) << ht.loadFactor() << "\n";
+    cout << "Total Collisions: " << ht.getCollisionCount()
+         << ", Max Bucket Size: " << ht.getMaxBucketSize()
+         << ", Avg Bucket Length: " << fixed << setprecision(2) << ht.getAverageBucketLength() << "\n\n";
+}
+
+int main() {
+    const int N = 100;
+
+    // Random strings
+    cout << "=== Random Strings ===\n";
+    vector<string> randomKeys;
+    for (int i = 0; i < N; i++) randomKeys.push_back(randomString(6));
+    HashTable htRandom;
+    testInputType(htRandom, randomKeys);
+
+    // Sequential keys
+    cout << "=== Sequential Keys ===\n";
+    vector<string> seqKeys;
+    for (int i = 1; i <= N; i++) seqKeys.push_back("student" + to_string(i));
+    HashTable htSeq;
+    testInputType(htSeq, seqKeys);
+
+    // Same-prefix keys
+    cout << "=== Same-Prefix Keys ===\n";
+    vector<string> prefixKeys;
+    for (int i = 1; i <= N; i++)
+        prefixKeys.push_back("data_" + string(4 - to_string(i).length(), '0') + to_string(i));
+    HashTable htPrefix;
+    testInputType(htPrefix, prefixKeys);
+
+    return 0;
+}
