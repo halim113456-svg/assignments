@@ -1,0 +1,159 @@
+1. Define the Node Structure
+Create the following structure.
+
+struct Node
+{
+    int data;
+    Node* next;
+};
+
+2. here is the correct implementation of the Stack class definition based on your Node structure:
+
+class Stack
+{
+private:
+    Node* top;   
+
+public:
+    Stack();     
+
+    void push(int value);  
+    void pop();            
+    int peek();            
+    bool isEmpty();        
+    void display();        
+};
+
+
+3. Here is the correct implementation of the constructor for your stack:
+
+Stack::Stack()
+{
+    top = nullptr;
+}
+
+
+4. Here is the correct implementation of the push() function:
+
+void Stack::push(int value)
+{
+    // Step 1: Create a new node
+    Node* newNode = new Node;
+
+    
+    newNode->data = value;
+
+    
+    newNode->next = top;
+
+    
+    top = newNode;
+} 
+
+5. Here is the correct implementation of the pop() function:
+
+void Stack::pop()
+{
+    
+    if (isEmpty())
+    {
+        cout << "Stack Underflow" << endl;
+        return;
+    }
+
+   
+    Node* temp = top;
+
+    
+    top = top->next;
+
+   
+    delete temp;
+}
+
+6.Here is the correct implementation of the peek() function:
+
+int Stack::peek()
+{
+    
+    if (isEmpty())
+    {
+        cout << "Stack is empty" << endl;
+        return -1; // Return a sentinel value
+    }
+
+    
+    return top->data;
+}
+
+
+
+7. Here is the correct implementation of the isEmpty() function:
+
+bool Stack::isEmpty()
+{
+    return (top == nullptr);
+}
+
+8. Here is the correct implementation of the display() function:
+
+void Stack::display()
+{
+     Step 1 Check if stack is empty
+    if (isEmpty())
+    {
+        cout << "Stack is empty" << endl;
+        return;
+    }
+
+     Step 2 Traverse the stack from top to bottom
+    Node* temp = top;
+    cout << "Stack elements:" << endl;
+
+    while (temp != nullptr)
+    {
+        cout << temp->data << endl;
+        temp = temp->next;  // Move to next node
+    }
+}
+
+9.Here’s the right  version of your driver program:
+
+#include <iostream>
+#include "stack.h"
+using namespace std;
+
+int main()
+{
+    Stack s;
+
+    s.push(10);
+    s.push(20);
+    s.push(30);
+    s.push(40);
+
+    s.display();
+
+    s.pop();
+
+    cout << "Top element: " << s.peek() << endl;
+
+    s.display();
+
+    return 0;
+}
+
+10. You only need to check if the stack is empty in pop() before removing the top node:
+
+void Stack::pop()
+{
+    if (isEmpty())  // Check for underflow
+    {
+        cout << "Stack Underflow" << endl;
+        return;
+    }
+
+    Node* temp = top;
+    top = top->next;
+    delete temp;
+}
