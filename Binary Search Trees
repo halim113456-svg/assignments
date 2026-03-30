@@ -1,0 +1,72 @@
+1. Given insertion order
+[1, 5, 9, 2, 4, 10, 6, 3, 8]
+
+
+2. For a well balanced binary search tree
+Maximum steps = height of tree
+Height = log 2(n)
+For n = 1000
+
+3. The largest value in a BST is always found by going as far right as possible.
+  FUNCTION findMax(root):
+    IF root is NULL:
+        RETURN "Tree is empty"
+    
+    WHILE root.right is NOT NULL:
+        root = root.right
+    
+    RETURN root.value
+
+4. #include <iostream>
+using namespace std;
+
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+
+
+Node* insert(Node* root, int value) {
+    if (root == NULL) {
+        return new Node(value);
+    }
+
+    if (value < root->data) {
+        root->left = insert(root->left, value);
+    } else {
+        root->right = insert(root->right, value);
+    }
+
+    return root;
+}
+
+
+void inorder(Node* root) {
+    if (root == NULL) return;
+    inorder(root->left);
+    cout << root->data << " ";
+    inorder(root->right);
+}
+
+int main() {
+    int arr[] = {1, 5, 9, 2, 4, 10, 6, 3, 8};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    Node* root = NULL;
+
+    for (int i = 0; i < n; i++) {
+        root = insert(root, arr[i]);
+    }
+
+    cout << "Inorder Traversal of BST: ";
+    inorder(root);
+
+    return 0;
+}
