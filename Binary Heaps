@@ -1,0 +1,42 @@
+Binary Heaps Activity
+1. Insert 11 into the heap
+Start with a max heap.
+ Insert at next available position
+11 is placed as the right child of 5.
+ Bubble up
+    •    11 > 5 → swap
+    •    11 > 9 → swap
+    •    11 > 10 → swap
+Final Heap:
+          11
+        /    \
+      10      8
+     /  \    / \
+    6    9  7   4
+   / \  / \
+  2  1 3   5
+
+2. Delete the root node
+Step 1: Replace root with last element 
+
+
+Step 2: Bubble down
+      5 < 10 → swap
+      5 < 9 → swap
+Final Heap:
+          10
+        /    \
+      9       8
+     /  \    / \
+    6    5  7   4
+   / \  /
+  2  1 3
+
+3. Heap insertion and removal order
+Numbers inserted:
+55, 22, 34, 68
+Since this is a max heap, removing elements returns the largest first.
+Output order:
+68, 55, 34, 22
+
+
