@@ -1,0 +1,81 @@
+
+
+## Objective
+Understanding why Dijkstra algorithm fails on negative weights.
+
+
+
+## 1. What is Dijkstra’s Algorithm?
+
+Dijkstra’s algorithm is used to find the shortest path from one node to all other nodes in a graph.
+
+It always picks the node with the smallest distance first and assumes that distance is correct.
+
+This works only when all edge weights are positive.
+
+
+
+## 2. Example Graph
+
+A ----1----> B
+\
+\
+4
+\
+v
+C
+
+-6
+
+v
+B
+
+Edges:
+ A -> B = 1  
+ A -> C = 4  
+ C -> B = -6  
+
+
+
+## 3. What Dijkstra Does
+
+Start at A:
+
+ Distance to B = 1  
+ Distance to C = 4  
+
+Since 1 is smaller the algorithm chooses B first.
+
+It assumes the shortest path to B is 1.
+
+
+
+## 4. The Problem
+
+There is another path:
+
+A -> C -> B  
+= 4 + (-6)  
+= -2  
+
+The value -2 is smaller than 1.
+
+So the real shortest path is -2 not 1.
+
+
+
+## 5. Why It Fails
+
+The algorithm makes a mistake because:
+
+ It chooses the smallest value first
+It does not go back and change it
+ A negative weight can create a smaller value later
+
+
+
+## 6. Conclusion
+
+Dijkstra’s algorithm does not work with negative weights.
+
+It only works when all edge weights are positive.
