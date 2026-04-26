@@ -1,0 +1,144 @@
+
+
+
+# Graph Assignment: BFS and DFS in C++
+
+## Student Assignment
+
+## 1. Theoretical Graph
+
+This is the graph I created before coding:
+
+    A
+  /   \
+ B     C
+/ \   / \
+D  E  F   G 
+
+Vertices: A, B, C, D, E, F, G  
+Edges: A-B, A-C, B-D, B-E, C-F, C-G  
+
+This is an undirected graph because the connections go both ways.
+
+
+
+## 2. Implementation C++
+
+I used an adjacency list to represent the graph.
+
+- BFS uses a queue and goes level by level.
+- DFS uses recursion and goes deep first.
+
+  
+## 3. Output
+BFS: A B C D E F G
+DFS: A B D E C F G 
+
+
+## 4. Explanation
+
+Breadth-first search (BFS) visits nodes level by level starting from A.  
+Depth-first search (DFS) goes down one path first before backtracking.
+
+BFS uses a queue and DFS uses recursion (similar to a stack).
+
+
+
+## 5. Big O Complexity
+
+Time Complexity
+V = number of vertices  
+E = number of edges  
+
+
+
+## 6. Conclusion
+
+BFS is useful for finding the shortest path in an unweighted graph.  
+DFS is useful for exploring all paths in a graph.
+
+
+
+## 7. C++ Code
+
+```cpp
+#include <iostream>
+#include <vector> 
+ #include <queue>
+ using namespace std;
+
+ class Graph {
+private:
+    int V;
+    vector<vector<int>> adj;
+
+public:
+    Graph(int v) {
+          V = v;
+         adj.resize(V);
+    }
+
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    void BFS(int start) {
+        vector<bool> visited(V, false);
+        queue<int> q;
+
+        visited[start] = true;
+        q.push(start);
+
+         cout << "BFS: ";
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            cout << char(node + 'A') << " ";
+
+             for (int n : adj[node]) {
+                if (!visited[n]) {
+                    visited[n] = true;
+                    q.push(n);
+                }
+            }
+        }
+        cout << endl;
+    }
+
+    void DFSHelper(int node, vector<bool>& visited) {
+        visited[node] = true;
+        cout << char(node + 'A') << " ";
+
+        for (int n : adj[node]) {
+            if (!visited[n]) {
+                DFSHelper(n, visited);
+            }
+        }
+    }
+
+    void DFS(int start) {
+        vector<bool> visited(V, false);
+        cout << "DFS: ";
+        DFSHelper(start, visited);
+        cout << endl;
+    }
+};
+
+int main() {
+    Graph g(7);
+
+     g.addEdge(0, 1); // A-B
+    g.addEdge(0, 2); // A-C
+     g.addEdge(1, 3); // B-D
+    g.addEdge(1, 4); // B-E
+    g.addEdge(2, 5);  // C-F
+     g.addEdge(2, 6); // C-G 
+
+    g.BFS(0);
+    g.DFS(0);
+
+    return 0;
+}
