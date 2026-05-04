@@ -1,0 +1,36 @@
+1. Identify the base case in the function:
+
+return if low > high
+This means the function stops running when the starting number becomes bigger than the ending number. Without this, the function would keep running forever.
+
+2. My kid was playing with my computer and changed my factorial function so that it computes factorial based on (n - 2) 
+instead of (n - 1). Predict what will happen when we run factorial(10) using this function:
+
+10 × 8 × 6 × 4 × 2 × factorial(0)
+
+3. Following is a function in which we pass in two numbers called low and high. The function returns the sum of all the numbers from low to high. 
+For example, if low is 1, and high is 10, the function will return the sum of all numbers from 1 to 10, which is 55. 
+However, our code is missing the base case, and will run indefinitely! Fix the code by adding the correct base case:
+
+the function was missing a base case, Now the function stops when both numbers are the same.
+def sum(low, high)
+    return low if low == high
+    return high + sum(low, high - 1)
+end
+
+4. Here is an array containing both numbers as well as other arrays, which in turn contain numbers and arrays:
+Write a recursive function that prints all the numbers (and just numbers).
+
+def print_numbers(arr)
+  arr.each do |item|
+    if item.is_a?(Array)
+      print_numbers(item)
+    else
+      puts item
+       end
+     end
+end
+
+
+This function checks each item in the list. If the item is a number it prints it. If the item is another list
+it calls the function again on that list. This continues until all numbers are printed.
