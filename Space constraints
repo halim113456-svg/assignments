@@ -1,6 +1,6 @@
 Task 1: Word Builder
 
-## Code
+Code
 
 ```js
 function wordBuilder(array) { 
@@ -17,7 +17,7 @@ function wordBuilder(array) {
     return collection; 
 }
 
-## Space Complexity
+  Space Complexity
 
 The function creates many word combinations and stores them in a new array. Since nested loops are used, the amount of memory grows very quickly as the input size increases.
 
@@ -38,7 +38,7 @@ function reverse(array) {
     return newArray;
 }
 
-## Space Complexity
+ Space Complexity
 
 This function creates a second array to store reversed values. The new array stores every item from the original array.
 
@@ -63,11 +63,11 @@ function reverseInPlace(array) {
     return array;
 }
 
-## Space Complexity
+ Space Complexity
 
 This version reverses the array directly instead of creating a second array. Only a few extra variables are used.
 
-**Big O Space Complexity: O(1)**
+Big O Space Complexity: O(1)
 
 
 Task 4: Double Array Complexity
@@ -78,7 +78,7 @@ Version #2	O(n)	O(1)
 Version #3	O(n)	O(n)
 
 
-Version #1
+ #1
 Code
 function doubleArray1(array) { 
     let newArray = [];
@@ -90,7 +90,7 @@ function doubleArray1(array) {
     return newArray; 
 }
 
-### Explanation
+Explanation
 
 This function loops through the array once and creates a new array.
 
@@ -98,7 +98,7 @@ This function loops through the array once and creates a new array.
 - Space Complexity: O(n)
 
 
-Version #2
+ #2
 Code
 function doubleArray2(array) {
     for (let i = 0; i < array.length; i++) {
@@ -109,7 +109,7 @@ function doubleArray2(array) {
 }
 
 
-## Explanation
+ Explanation
 
 This version changes the original array directly without creating a second array.
 
@@ -117,7 +117,7 @@ This version changes the original array directly without creating a second array
 - Space Complexity: O(1)
 
 
-Version #3
+#3
 Code
 function doubleArray3(array, index = 0) { 
     if (index >= array.length) {
@@ -130,8 +130,7 @@ function doubleArray3(array, index = 0) {
 
     return array; 
 }
-
-### Explanation
+ Explanation
 
 This version uses recursion. Recursive calls use stack memory, which increases space usage.
 
