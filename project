@@ -1,0 +1,344 @@
+
+
+1. Building the hash set: O(N)
+
+Searching through the second array: O(M)
+
+`Overall: O(N + M)
+
+
+
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
+struct Player {
+    string first_name;
+    string last_name;
+    string team;
+};
+
+vector<string> playersInBothSports(
+    vector<Player>& basketball_players,
+    vector<Player>& football_players) {
+
+    unordered_set<string> playerSet;
+    vector<string> result;
+
+   
+    for (auto& player : basketball_players) {
+        string fullName = player.first_name + " " + player.last_name;
+        playerSet.insert(fullName);
+    }
+
+   
+    for (auto& player : football_players) {
+        string fullName = player.first_name + " " + player.last_name;
+
+        if (playerSet.find(fullName) != playerSet.end()) {
+            result.push_back(fullName);
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    vector<Player> basketball_players = {
+        {"Jill", "Huang", "Gators"},
+        {"Janko", "Barton", "Sharks"},
+        {"Wanda", "Vakulskas", "Sharks"},
+        {"Jill", "Moloney", "Gators"},
+        {"Luuk", "Watkins", "Gators"}
+    };
+
+    vector<Player> football_players = {
+        {"Hanzla", "Radosti", "32ers"},
+        {"Tina", "Watkins", "Barleycorns"},
+        {"Alex", "Patel", "32ers"},
+        {"Jill", "Huang", "Barleycorns"},
+        {"Wanda", "Vakulskas", "Barleycorns"}
+    };
+
+    vector<string> result = playersInBothSports(
+        basketball_players,
+        football_players
+    );
+
+    for (string name : result) {
+        cout << name << endl;
+    }
+
+    return 0;
+}
+
+
+
+2. 
+I know there is supposed to be every number from 0 up to N.
+
+First, i calculate what the total sum should be.
+
+Then i add up the numbers actually inside the array.
+
+The difference between the two sums is the missing number.
+
+why its fast 
+Single traversal of the array: O(N)
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int findMissingNumber(vector<int>& nums) {
+    int n = nums.size();
+
+    int expectedSum = n * (n + 1) / 2;
+    int actualSum = 0;
+
+    for (int num : nums) {
+        actualSum += num;
+    }
+
+    return expectedSum - actualSum;
+}
+
+int main() {
+    vector<int> nums = {2, 3, 0, 6, 1, 5};
+
+    cout << "Missing number: "
+         << findMissingNumber(nums) << endl;
+
+    return 0;
+}
+
+
+
+3.
+I keep track of the lowest stock price we have seen so far.
+
+As I move through the array, I calculate how much profit I would make if I sold the stock today.
+
+If that profit is bigger than the current best profit, I update it.
+
+this is fast
+Single pass through the array: O(N)
+
+
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+int maxProfit(vector<int>& prices) {
+    int minPrice = INT_MAX;
+    int maxProfit = 0;
+
+    for (int price : prices) {
+        if (price < minPrice) {
+            minPrice = price;
+        }
+
+        int profit = price - minPrice;
+
+        if (profit > maxProfit) {
+            maxProfit = profit;
+        }
+    }
+
+    return maxProfit;
+}
+
+int main() {
+    vector<int> prices = {10, 7, 5, 8, 11, 2, 6};
+
+    cout << "Maximum profit: "
+         << maxProfit(prices) << endl;
+
+    return 0;
+}
+
+
+4.Negative numbers are important here.
+
+For example, multiplying two negative numbers gives a positive number.
+
+So I keep track of:
+
+The two biggest numbers
+
+The two smallest numbers
+
+Then I compare:
+
+Product of the two biggest numbers
+
+Product of the two smallest numbers
+
+The larger answer is the highest product.
+
+why its fast 
+Single traversal: O(N)
+
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+int highestProduct(vector<int>& nums) {
+    int largest1 = INT_MIN;
+    int largest2 = INT_MIN;
+
+    int smallest1 = INT_MAX;
+    int smallest2 = INT_MAX;
+
+    for (int num : nums) {
+        
+        if (num > largest1) {
+            largest2 = largest1;
+            largest1 = num;
+        } else if (num > largest2) {
+            largest2 = num;
+        }
+
+        
+        if (num < smallest1) {
+            smallest2 = smallest1;
+            smallest1 = num;
+        } else if (num < smallest2) {
+            smallest2 = num;
+        }
+    }
+
+    int positiveProduct = largest1 * largest2;
+    int negativeProduct = smallest1 * smallest2;
+
+    return max(positiveProduct, negativeProduct);
+}
+
+int main() {
+    vector<int> nums = {5, -10, -6, 9, 4};
+
+    cout << "Highest product: "
+         << highestProduct(nums) << endl;
+
+    return 0;
+}
+
+
+5. The temperatures only go from 97.0 to 99.0.
+
+That means there are only a small number of possible values.
+
+So instead of using a normal sorting algorithm, I count how many times each temperature appears.
+
+Then I rebuild the array in order from smallest to largest.
+
+
+this it why its fast
+
+Counting pass: O(N)
+
+Reconstruction pass: O(N)
+
+Overall: O(N)
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<double> sortTemperatures(vector<double>& temps) {
+    vector<int> counts(21, 0);
+
+   
+    for (double temp : temps) {
+        int index = (temp - 97.0) * 10;
+        counts[index]++;
+    }
+
+    vector<double> result;
+
+   
+    for (int i = 0; i < 21; i++) {
+        while (counts[i] > 0) {
+            result.push_back(97.0 + i / 10.0);
+            counts[i]--;
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    vector<double> temps = {
+        98.6, 98.0, 97.1, 99.0,
+        98.9, 97.8, 98.5, 98.2,
+        98.0, 97.1
+    };
+
+    vector<double> sorted = sortTemperatures(temps);
+
+    for (double temp : sorted) {
+        cout << temp << " ";
+    }
+
+    return 0;
+}
+
+
+
+
+
+6. I place all numbers into a hash set  so I can quickly check whether a number exists.
+
+For each number I check if it is the start of a sequence.
+
+A number is the start if the number before it does not exist.
+
+Then I keep counting upward until the sequence ends.
+
+why its fast 
+Hash set insertion: O(N)
+
+Sequence checks: O(N)
+
+Overall: O(N)
+
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
+int longestConsecutive(vector<int>& nums) {
+    unordered_set<int> numSet(nums.begin(), nums.end());
+
+    int longest = 0;
+
+    for (int num : nums) {
+        
+        if (numSet.find(num - 1) == numSet.end()) {
+            int currentNum = num;
+            int currentLength = 1;
+
+            while (numSet.find(currentNum + 1) != numSet.end()) {
+                currentNum++;
+                currentLength++;
+            }
+
+            longest = max(longest, currentLength);
+        }
+    }
+
+    return longest;
+}
+
+int main() {
+    vector<int> nums = {10, 5, 12, 3, 55, 30, 4, 11, 2};
+
+    cout << "Longest consecutive sequence length: "
+         << longestConsecutive(nums) << endl;
+
+    return 0;
+}
